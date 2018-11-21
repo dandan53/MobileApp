@@ -59,7 +59,8 @@ public class AlarmActivity extends AppCompatActivity {
         String r0 = "EXIT";
         boolean r1 = false;
         boolean bo = intent.getBooleanExtra(r0, r1);
-        if (!bo) {
+        // dandan TEMP if (bo)
+        if (bo) {
             finish();
             return;
         } else {

@@ -319,7 +319,7 @@ public class MainActivity extends AppCompatActivity {
 
         try{
             Intent intent = new Intent("android.intent.action.MAIN");
-            intent.putExtra("com.example.dandan.mobileapp", AlarmActivity.class);
+            intent.putExtra("AlarmAppPackageName", str);
             intent.setClass(this, AlarmActivity.class);
             startActivity(intent);
 
