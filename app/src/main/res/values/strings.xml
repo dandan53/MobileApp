@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MobileApp</string>
+    <string name="action_settings">Settings</string>
+    <string name="pres_button_msg">Select apps to disable while driving :</string>
+    <string name="ok">OK</string>
+    <string name="cancel">cancel</string>
+    <string name="title_activity_alarm">AlarmActivity</string>
+
+
+</resources>
