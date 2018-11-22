@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,40 +110,40 @@ public class AppsManager {
         int len = list.size();
     }
 
-
     public void addAllApps(LinearLayout linearLayout) {
 
         PackageManager packageManager = _context.getPackageManager();
-        List<ApplicationInfo> packages = packageManager.getInstalledApplications(0);
+        List<ApplicationInfo> applications = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
 
         String packageName = "";
         String packName = "";
         Drawable appIcon;
-        String appLabel;
+        CharSequence appLabel;
+        String appLabelStr;
+
+        int r1 = 100;
 
         ArrayList<String> allApps = new ArrayList();
 
-        for (ApplicationInfo applicationInfo : packages) {
+        for (ApplicationInfo applicationInfo : applications) {
             try {
-
                 Log.d("APP_INFO", "App: " + applicationInfo.name + " Package: " + applicationInfo.packageName);
 
                 packName = applicationInfo.packageName;
-
                 packageName = packName.toLowerCase();
 
-                if (packageName.contains(".whatsapp") ||
+                if ((packageName.contains(".whatsapp") ||
                         packageName.contains(".facebook") ||
                         packageName.contains(".messages") ||
                         packageName.contains(".messaging") ||
                         packageName.contains(".messenger") ||
                         packageName.contains(".instagram") ||
-                        packageName.contains(".mms") ||
-                        packageName.contains(".sms") ||
-                        packageName.contains(".installer") ||
-                        packageName.contains(".manager") ||
-                        packageName.contains(".system") ||
-                        packageName.contains(".service")) {
+                        packageName.contains(".mms")) &&
+                        !packageName.contains(".installer")){
+                        //packageName.contains(".sms") ||
+                        //packageName.contains(".manager") ||
+                        //packageName.contains(".system") ||
+                        //packageName.contains(".service")) {
 
                     try {
                         appIcon = packageManager.getApplicationIcon(packName);
@@ -154,6 +154,18 @@ public class AppsManager {
                         appIcon = ResourcesCompat.getDrawable(res, R.drawable.startbutton_res, null);
                     }
 
+                    r1 = r1 + 4;
+
+                    try{
+                        appLabel = packageManager.getApplicationLabel(applicationInfo);
+                        appLabelStr = appLabel.toString();
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                        appLabelStr = packName;
+                    }
+
+                    /* dandan instead   appLabel = _context.getApplicationLabel(applicationInfo);
                     try{
                         int stringId = applicationInfo.labelRes;
                         if (stringId == 0) {
@@ -165,27 +177,76 @@ public class AppsManager {
                     catch (Exception e) {
                         e.printStackTrace();
                     }
+                    */
 
-                    appLabel = packageName; //dandan
+                    // dandan via the list _selectedApps.add(packageName);
 
-                    //addApp(linearLayout, 100, appLabel, appIcon, packName); //dandan
-                    _apps.add(packageName);
-                    _selectedApps.add(packageName);
+                    addApp(linearLayout, r1, appLabelStr, appIcon, packName);
                 }
             }
             catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
-        int len = _apps.size();
     }
 
-    public ArrayList<String> _apps = new ArrayList();
 
+    private void addApp(LinearLayout linearLayout, int i, String str, Drawable drawable, String str2) {
+        int i2 = i;
+        final RelativeLayout relativeLayout = new RelativeLayout(this._context);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -2);
+        layoutParams.setMargins(dpToPx(0), dpToPx(10), dpToPx(0), dpToPx(0));
+        relativeLayout.setLayoutParams(layoutParams);
+        relativeLayout.setBackground(this._context.getResources().getDrawable(R.drawable.big_card));
+        int i3 = i2 + 1;
+        relativeLayout.setId(i2);
+        RelativeLayout.LayoutParams layoutParams2 = new RelativeLayout.LayoutParams(-2, -2);
+        View checkBox = new CheckBox(this._context);
+        layoutParams2.setMargins(dpToPx(5), dpToPx(15), dpToPx(0), dpToPx(10));
+        layoutParams2.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        checkBox.setLayoutParams(layoutParams2);
+        final String str3 = str2;
+        ((CheckBox) checkBox).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton compoundButton, boolean z) {
+                if (z) {
+                    AppsManager.this._selectedApps.add(str3);
+                } else {
+                    AppsManager.this._selectedApps.remove(str3);
+                }
+            }
+        });
+        i2 = i3 + 1;
+        checkBox.setId(i3);
+        relativeLayout.addView(checkBox);
+        RelativeLayout.LayoutParams layoutParams3 = new RelativeLayout.LayoutParams(-2, -2);
+        ImageView imageView = new ImageView(this._context);
+        layoutParams3.addRule(1, i3);
+        layoutParams3.setMargins(dpToPx(15), dpToPx(10), dpToPx(0), dpToPx(10));
+        layoutParams3.height = dpToPx(40);
+        layoutParams3.width = dpToPx(40);
+        imageView.setLayoutParams(layoutParams3);
+        imageView.setImageDrawable(drawable);
+        i3 = i2 + 1;
+        imageView.setId(i2);
+        relativeLayout.addView(imageView);
+        layoutParams3 = new RelativeLayout.LayoutParams(-2, -2);
+        TextView textView = new TextView(this._context);
+        textView.setText(str);
+        layoutParams3.addRule(1, i2);
+        layoutParams3.setMargins(dpToPx(15), dpToPx(20), dpToPx(0), dpToPx(10));
+        textView.setLayoutParams(layoutParams3);
+        textView.setId(i3);
+        relativeLayout.addView(textView);
+        final LinearLayout linearLayout2 = linearLayout;
+        ((MainActivity) this._context).runOnUiThread(new Runnable() {
+            public void run() {
+                linearLayout2.addView(relativeLayout);
+            }
+        });
+    }
 
     //dandan
-    private void addApp(LinearLayout linearLayout, int i, String str, Drawable drawable, String str2) {
+    private void addApp1(LinearLayout linearLayout, int i, String str, Drawable drawable, String str2) {
         int i2 = i;
         final RelativeLayout relativeLayout = new RelativeLayout(this._context);
         LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -2);
