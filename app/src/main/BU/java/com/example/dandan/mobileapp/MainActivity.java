@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                         MainActivity.this._drivingListener.StartGpsListener(2.0d, (double) MainActivity.this._driveSpeedVal);
                     }
                     MainActivity.this._isServiceActive = true;
-                    imageButton.setBackgroundResource(R.drawable.startbutton_clicked_res);
+                    //dandandan imageButton.setBackgroundResource(R.dr);
                     MainActivity.this.startService(new Intent(MainActivity.this.getApplicationContext(), RunService.class));
 
                     Intent intent = new Intent();
