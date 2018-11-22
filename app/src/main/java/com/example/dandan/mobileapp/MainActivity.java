@@ -207,12 +207,6 @@ public class MainActivity extends AppCompatActivity {
             MainActivity.this._appsManager.addAllApps((LinearLayout) MainActivity.this.findViewById(R.id.appLayout));
             MainActivity.this.runOnUiThread(new AddAllAppsRunInner());
         }
-
-        public void run1() {
-            MainActivity.this._appsManager.addAllApps1(allApps);
-
-            MainActivity.this.runOnUiThread(new AddAllAppsRunInner());
-        }
     }
 
     private void addAllApps() {
