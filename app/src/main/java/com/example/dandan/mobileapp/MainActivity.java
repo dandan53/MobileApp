@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                     MainActivity.this._drivingListener.unregisterRequestingUpdates();
                     MainActivity.this.stopClosingAppTimer();
                     MainActivity.this._isServiceActive = false;
-                    imageButton.setBackgroundResource(R.drawable.startbutton_res);
+                    imageButton.setImageResource(R.drawable.startbutton_res);  //dandan  imageButton.setBackgroundResource(R.drawable.startbutton_res);
                     MainActivity.this.stopService(new Intent(MainActivity.this.getApplicationContext(), RunService.class));
                 } else if (MainActivity.this.checkPermissions().booleanValue()) {
                     if (!MainActivity.this.isUsageAccessSettingsGranted()) {
@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                         MainActivity.this._drivingListener.StartGpsListener(2.0d, (double) MainActivity.this._driveSpeedVal);
                     }
                     MainActivity.this._isServiceActive = true;
-                    imageButton.setBackgroundResource(R.drawable.startbutton_clicked_res);
+                    imageButton.setImageResource(R.drawable.startbutton_clicked_res);  //dandan  imageButton.setBackgroundResource(R.drawable.startbutton_clicked_res);
                     //dandan TEMP MainActivity.this.startService(new Intent(MainActivity.this.getApplicationContext(), RunService.class));
 
                     Intent intent = new Intent();
